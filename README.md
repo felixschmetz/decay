@@ -1,6 +1,4 @@
 # decay
-Mess up pictures in a cool way.
-
 ### Status
 Currently only supports pixel sorting!
 
@@ -12,9 +10,9 @@ Following functionalities will be added shortly:
 - enclosure sorting: select specific part of image to be modified and leave the rest untouched
 - Support for other data types than jpg
 
-### Getting Started
 
-# Usage
+# Getting Started
+### Usage
 Compile using the following command:
 ```
 javac PixelSorter.java
@@ -25,7 +23,7 @@ java PixelSorter fileName
 ```
 and replace fileName with the name of the example image. Do not append ".jpg"!
 
-Example usage:
+Example:
 ```
 java PixelSorter scream
 ```
