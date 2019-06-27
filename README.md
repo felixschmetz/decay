@@ -42,6 +42,6 @@ If you'd like to 'decay' your own image, place it into the images folder and run
 # Functionalities
 ### Pixel Sorting
 
-![t1](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t1.jpg) ![t2](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t2.jpg)![t6](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t6.jpg)![t10](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t10.jpg)
+![t1](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t1.jpg)![t2](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t2.jpg)![t6](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t6.jpg)![t10](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t10.jpg)
 
 
