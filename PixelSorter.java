@@ -17,30 +17,63 @@ import java.util.*;
 
 class PixelSorter {
 
+
   static int imageType;
   public static void main(String[] args) {
 
     String fileName = args[0];
-    BufferedImage image = loadImage("images/" + fileName + ".jpg");
+    // BufferedImage image = loadImage("images/" + fileName + ".jpg");
+    BufferedImage imagePar = loadImage("images/" + fileName + ".jpg");
+
 
     // TODO: Progress bar!
     // TODO: Nicer console output
 
-    Color[][] gimg = buildMatrixGray(image); //grayscale image
-    Color[][] img = buildMatrix(image); //grayscale image
+    // Color[][] gimg = buildMatrixGray(image); //grayscale image
+    // Color[][] img = buildMatrix(image); //grayscale image
+    Color[][] imgPar = buildMatrix(imagePar); //grayscale image
 
-    int thickness = 2;
+    int thickness = 1;
     int shortest = 40;
     int longest = 60;
 
-    sort(img, thickness, shortest, longest);
-    sort(gimg, thickness, shortest, longest);
-    saveImage(fileName + "_out", img);
-    saveImage(fileName + "_out" + "_gray", gimg);
+    // sort_seq(img, thickness, shortest, longest);
+    sort_parallel(imgPar, thickness, shortest, longest);
+    // saveImage(fileName + "_out", img);
+    // saveImage(fileName + "_out" + "_gray", img);
+    saveImage(fileName + "_out" + "_par", imgPar);
 
     // TODO: add drawing interface to determine enclosing
 
     // TODO: smoothing of enclosing?
+
+  }
+
+  static void sort_seq(Color[][] img, int thickness, int shortest, int longest) {
+    sort(img, thickness, shortest, longest, 0, img.length);
+  }
+
+  static void sort_parallel(Color[][] img, int thickness, int shortest, int longest) {
+
+    int maxThreadCount = Runtime.getRuntime().availableProcessors();
+
+
+
+    if (img.length < 1000) sort(img, thickness, shortest, longest, 0, img.length);
+    else {
+
+      int mid = img.length / 2;
+      int mid1 = mid/2;
+      int mid2 = (mid + img.length) / 2;
+
+      sort(img, thickness, shortest, longest, 0, mid1);
+      sort(img, thickness, shortest, longest, mid1, mid);
+      sort(img, thickness, shortest, longest, mid, mid2);
+      sort(img, thickness, shortest, longest, mid2, img.length);
+
+    }
+
+    // sort(img, thickness, shortest, longest, 0, img.length);
 
   }
 
@@ -77,7 +110,7 @@ class PixelSorter {
     return lengths;
   }
 
-  static void sort(Color[][] img, int thickness, int shortest, int longest) {
+  static void sort(Color[][] img, int thickness, int shortest, int longest, int left, int right) {
 
     if (img == null || thickness < 1 || shortest < 1 || longest < 1) return;
     // TODO: add enclosure
@@ -91,8 +124,7 @@ class PixelSorter {
     // int tempshort = templong - 5;
     // if (tempshort < 1) tempshort = 1;
 
-    for (int i = 0; i < n; i++) {
-      progressPercentage(i, n - 1, "Sorting");
+    for (int i = left; i < right; i++) {
       Color[] currentCol = img[i];
       // Generate random division of column and random lengths
       if (i % thickness == 0) lengths = partition(currentCol, shortest, longest);
@@ -230,7 +262,6 @@ class PixelSorter {
     Color[][] output = new Color[n][m];
 
     for (int i = 0; i < n; i++) {
-      progressPercentage(i, n - 1, "Constructing Gray Matrix");
       for (int j = 0; j < m; j++) {
 
         Color imageColor = new Color(image.getRGB(i,j));
@@ -256,35 +287,10 @@ class PixelSorter {
     Color[][] output = new Color[n][m];
 
     for (int i = 0; i < n; i++) {
-      progressPercentage(i, n - 1, "Constructing Regular Matrix");
       for (int j = 0; j < m; j++) output[i][j] = new Color(image.getRGB(i,j));
     }
 
     return output;
-  }
-
-
-
-  // taken from stackoverflow
-  public static void progressPercentage(int remain, int total, String action) {
-    if (remain > total) {
-        throw new IllegalArgumentException();
-    }
-    int maxBareSize = 10; // 10unit for 100%
-    int remainProcent = ((100 * remain) / total) / maxBareSize;
-    char defaultChar = '-';
-    String icon = "*";
-    String bare = new String(new char[maxBareSize]).replace('\0', defaultChar) + "]";
-    StringBuilder bareDone = new StringBuilder();
-    bareDone.append(action + ": [");
-    for (int i = 0; i < remainProcent; i++) {
-        bareDone.append(icon);
-    }
-    String bareRemain = bare.substring(remainProcent, bare.length());
-    System.out.print("\r" + bareDone + bareRemain + " " + remainProcent * 10 + "%");
-    if (remain == total) {
-        System.out.print("\n");
-    }
   }
 
 }
