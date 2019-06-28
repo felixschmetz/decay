@@ -47,7 +47,7 @@ Parameters: thickness [Integer], length [String]
 
 Thickness: The thickness parameter determines the thickness of the vertical streaks in pixels. Pictured below. The first image has a thickness of 1, which means that they are one pixel wide. The second picture has thickness 3 and the last thickness 10. How visually pleasing the result is depends on the resolution of the input image.
 
-![thickness](https://i.imgur.com/IJjJk7H.png)
+![thickness](https://i.imgur.com/Xe3MK6J.png)
 
 Length:
 The average length of the vertical streaks. Either write short, med or long.
