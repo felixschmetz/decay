@@ -51,3 +51,4 @@ Thickness: The thickness parameter determines the thickness of the vertical stre
 
 Length:
 The average length of the vertical streaks. Either write short, med or long.
+![length](https://i.imgur.com/VIs7OAo.jpg)
