@@ -47,7 +47,7 @@ Parameters: thickness [Integer], length [String]
 
 Thickness: The thickness parameter determines the thickness of the vertical streaks in pixels. Pictured below. The first image has a thickness of 1, which means that they are one pixel wide. The second picture has thickness 3 and the last thickness 10. How visually pleasing the result is depends on the resolution of the input image.
 
-![t1](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t1.jpg)![t3](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t2.jpg)![t10](https://raw.githubusercontent.com/felixschmetz/decay/master/examples/thickness/t10.jpg)
+![thickness](https://i.imgur.com/IJjJk7H.png)
 
 Length:
 The average length of the vertical streaks. Either write short, med or long.
