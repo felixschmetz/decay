@@ -1,4 +1,6 @@
 # decay
+
+![head](https://i.imgur.com/i4pZjV8.jpg)
 ## Status
 **Currently only supports pixel sorting!**
 
