@@ -60,16 +60,18 @@ If you'd like to 'decay' your own image, place it into the images folder and run
 # Functionalities
 ### Pixel Sorting
 
-Operation descriptor: -ps
-Parameters: thickness [Integer], length [String]
+**What does it do?** The pixel sorter will go through each column \[row\], divide each row \[column\] into a random number of subarrays between the lower and upper bound provided by the user and sort them from dark to light \[or light to dark\] depending on the users input. For vertical sorting use keyword vertical, for horizontal sorting use keyword horizontal.
 
-Thickness: The thickness parameter determines the thickness of the vertical streaks in pixels. Pictured below. The first image has a thickness of 1, which means that they are one pixel wide. The second picture has thickness 3 and the last thickness 10. How visually pleasing the result is depends on the resolution of the input image.  
+**Operation descriptor:** -ps
+**Parameters:** thickness [Integer], length [String]
+
+**Thickness:** The thickness parameter determines the thickness of the vertical streaks in pixels. Pictured below. The first image has a thickness of 1, which means that they are one pixel wide. The second picture has thickness 3 and the last thickness 10. How visually pleasing the result is depends on the resolution of the input image.  
   
 
 ![thickness](https://i.imgur.com/Xe3MK6J.png)
   
   
-Length:
+**Length:**
 The average length of the vertical streaks. Either write short, med or long.  
   
 ![length](https://i.imgur.com/VIs7OAo.jpg)
