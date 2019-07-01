@@ -123,8 +123,21 @@ class ImageProcessor {
 
     Color[][] output = new Color[n][m];
 
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) output[i][j] = new Color(image.getRGB(i,j));
+    // int threads = Runtime.getRuntime().availableProcessors();
+    int threads = 2;
+
+    Thread[] ts = new Thread[threads];
+    for (int i = 0; i < threads; i++) {
+        ts[i] = new Thread(new HelperThread(image, output, i * output.length / threads, (i + 1) * output.length / threads));
+        ts[i].start();
+    }
+    for (int i = 0; i < threads; i++) {
+      try {
+        ts[i].join();
+      } catch(Exception e) {
+
+      }
+
     }
 
     return output;
@@ -144,9 +157,37 @@ class ImageProcessor {
 
       }
     }
-
     return out;
+  }
+
+}
+
+class HelperThread implements Runnable {
+
+  private BufferedImage image;
+  private Color[][] output;
+  private int start, end;
+
+  public HelperThread(BufferedImage image, Color[][] output, int start, int end) {
+    this.image = image;
+    this.output = output;
+    this.start = start;
+    this.end = end;
+  }
+
+  public void run() {
+    buildMatrix(this.image, this.output, this.start, this.end);
+  }
+
+  void buildMatrix(BufferedImage image, Color[][] output, int start, int end) {
+
+    int m = output[0].length;
+
+    for (int i = start; i < end; i++) {
+      for (int j = 0; j < m; j++) output[i][j] = new Color(image.getRGB(i,j));
+    }
 
   }
+
 
 }
