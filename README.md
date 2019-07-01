@@ -6,14 +6,30 @@
 
 Following functionalities will be added shortly:
 
-* Adapt bound of streak lengths
-* Change thickness of streaks
+Soon:
+* Parallel saving
+* Arugments for
+  * Light to dark or dark to light
+  * Adapt bound of streak lengths (manually?)
 * horizontal sorting
-* increasing streak length throughout picture or just part of picture
-* enclosure sorting: select specific part of image to be modified and leave the rest untouched
-* Support for other data types than jpg
-* Parallel sorting (in progress)
+* arguments for horizontal or vertical sorting
 
+Near future:
+* increasing streak length throughout picture or just part of picture
+
+Far future:
+* enclosure sorting: select specific part of image to be modified and leave the rest untouched
+
+Probably around October/November:
+* Port everything to iphone
+* Support for different editing operations:
+  * Simple ones:
+    * Blurring
+    * Graining
+    * common camera artifacts
+    * Color degrading
+  * think of other ones
+* Make new github repository with nice layout
 
 ## Getting Started
 ### Usage
