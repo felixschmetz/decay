@@ -13,6 +13,7 @@ Soon:
   * Adapt bound of streak lengths (manually?)
 * horizontal sorting
 * arguments for horizontal or vertical sorting
+* Java interface with sliders and such (live operations on reduced image as preview and saving of high qual image)
 
 Near future:
 * increasing streak length throughout picture or just part of picture
