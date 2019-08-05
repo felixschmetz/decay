@@ -7,8 +7,8 @@
 Following functionalities will be added shortly:
 
 Soon:
-* Parallel saving
-* Arugments for
+* Full parallelization
+* Arguments for
   * Light to dark or dark to light
   * Adapt bound of streak lengths (manually?)
 * horizontal sorting
