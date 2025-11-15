@@ -1,0 +1,12 @@
+Test Repository for Extensionless Files
+
+This repository tests Airweave's handling of common extensionless files:
+- Dockerfile
+- Rakefile  
+- Gemfile
+- Makefile
+- LICENSE
+- This README file
+
+All files should be successfully synced and indexed.
+

@@ -1,0 +1,15 @@
+require 'rake/testtask'
+
+task default: :test
+
+desc "Run all tests"
+task :test do
+  puts "Running tests..."
+  ruby "test/test_helper.rb"
+end
+
+desc "Clean build artifacts"
+task :clean do
+  sh "rm -rf tmp/*"
+end
+
