@@ -1,0 +1,73 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "${image}",
+    "cpu": ${cpu},
+    "memory": ${memory},
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": ${container_port},
+        "hostPort": ${host_port},
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {
+        "name": "ENVIRONMENT",
+        "value": "${environment}"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "${aws_region}"
+      },
+      {
+        "name": "DATABASE_URL",
+        "value": "${database_url}"
+      },
+      {
+        "name": "REDIS_URL",
+        "value": "${redis_url}"
+      },
+      {
+        "name": "S3_BUCKET",
+        "value": "${s3_bucket}"
+      },
+      {
+        "name": "LOG_LEVEL",
+        "value": "${log_level}"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "DATABASE_PASSWORD",
+        "valueFrom": "${db_password_secret_arn}"
+      },
+      {
+        "name": "JWT_SECRET",
+        "valueFrom": "${jwt_secret_arn}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${aws_region}",
+        "awslogs-stream-prefix": "${log_stream_prefix}"
+      }
+    },
+    "healthCheck": {
+      "command": [
+        "CMD-SHELL",
+        "curl -f http://localhost:${container_port}/health || exit 1"
+      ],
+      "interval": 30,
+      "timeout": 5,
+      "retries": 3,
+      "startPeriod": 60
+    },
+    "mountPoints": [],
+    "volumesFrom": []
+  }
+]
+
