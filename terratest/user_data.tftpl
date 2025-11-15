@@ -1,0 +1,109 @@
+#!/bin/bash
+# User data template for EC2 instances
+# This file uses Terraform template syntax (.tftpl)
+
+set -e
+
+# Update system packages
+echo "Updating system packages..."
+apt-get update -y
+apt-get upgrade -y
+
+# Install Docker
+echo "Installing Docker..."
+apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+apt-get update -y
+apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# Start Docker service
+systemctl start docker
+systemctl enable docker
+
+# Configure environment variables from Terraform
+export ENVIRONMENT="${environment}"
+export AWS_REGION="${aws_region}"
+export PROJECT_NAME="${project_name}"
+export S3_BUCKET="${s3_bucket_name}"
+export DATABASE_URL="${database_url}"
+export REDIS_URL="${redis_url}"
+
+# Create application directory
+mkdir -p /opt/airweave
+cd /opt/airweave
+
+# Write environment file
+cat > /opt/airweave/.env <<EOF
+ENVIRONMENT=${environment}
+AWS_REGION=${aws_region}
+PROJECT_NAME=${project_name}
+S3_BUCKET=${s3_bucket_name}
+DATABASE_URL=${database_url}
+REDIS_URL=${redis_url}
+LOG_LEVEL=${log_level}
+API_PORT=${api_port}
+WORKER_CONCURRENCY=${worker_concurrency}
+EOF
+
+# Pull Docker image from ECR
+echo "Pulling Docker image..."
+aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${ecr_repository_url}
+docker pull ${ecr_repository_url}:${image_tag}
+
+# Run the application container
+echo "Starting Airweave container..."
+docker run -d \
+  --name airweave-app \
+  --restart unless-stopped \
+  -p ${api_port}:${api_port} \
+  --env-file /opt/airweave/.env \
+  ${ecr_repository_url}:${image_tag}
+
+# Configure CloudWatch Logs agent
+echo "Configuring CloudWatch Logs..."
+cat > /opt/aws/amazon-cloudwatch-agent/etc/config.json <<EOF
+{
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/airweave/*.log",
+            "log_group_name": "${cloudwatch_log_group}",
+            "log_stream_name": "{instance_id}/airweave.log"
+          }
+        ]
+      }
+    }
+  }
+}
+EOF
+
+# Start CloudWatch agent
+systemctl start amazon-cloudwatch-agent
+systemctl enable amazon-cloudwatch-agent
+
+# Health check
+echo "Running health check..."
+for i in {1..30}; do
+  if curl -f http://localhost:${api_port}/health; then
+    echo "Application is healthy!"
+    break
+  fi
+  echo "Waiting for application to be ready... ($i/30)"
+  sleep 2
+done
+
+echo "User data script completed successfully!"
+
